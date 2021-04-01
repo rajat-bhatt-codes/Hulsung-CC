@@ -92,7 +92,7 @@ router.put("/edit/:id", async (req, res) => {
     );
 
     await product.save();
-    res.json(product);
+    res.json({ msg: "Product Updated Successsfully", product });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
@@ -106,7 +106,9 @@ router.put("/edit/:id", async (req, res) => {
 router.delete("/delete/:id", async (req, res) => {
   try {
     await Product.findByIdAndRemove(req.params.id);
-    res.send("Product deleted Successsfully");
+    const products = await Product.find();
+
+    res.json({ msg: "Product deleted Successsfully", products });
   } catch (err) {
     console.error(err.response);
     if (err.kind === "ObjectId") {
